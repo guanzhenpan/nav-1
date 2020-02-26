@@ -127,25 +127,22 @@ var hashMap = xObject || [{
   url: 'https://www.acfun.cn'
 }, {
   logo: 'B',
-  url: 'https://www.baidu.com'
-}, {
-  logo: 'B',
   url: 'https://www.bilibili.com'
 }];
 
 var simplifyUrl = function simplifyUrl(url) {
-  return url.replace('https://', '').replace('http://', '').replace('www.', '').replace(/\/.*/, '');
+  return url.replace('https://', '').replace('http://', '').replace('www.', '').replace(/\/.*/, ''); // 删除 / 开头的内容
 };
 
 var render = function render() {
   $siteList.find('li:not(.last)').remove();
   hashMap.forEach(function (node, index) {
-    var $li = $("<li>\n    <div class=\"site\">\n    <div class=\"logo\">".concat(node.logo[0], "</div>\n    <div class=\"link\">").concat(simplifyUrl(node.url), "</div>\n     <div class =\"close\">\n     <svg class =\"icon\">\n     <use xlink:href=\"#icon-close\"></use>\n     </svg>\n     </div>\n    </div>\n    \n    </li>")).insertBefore($lastLi);
+    var $li = $("<li>\n        <div class=\"site\">\n          <div class=\"logo\">".concat(node.logo, "</div>\n          <div class=\"link\">").concat(simplifyUrl(node.url), "</div>\n          <div class=\"close\">\n            <svg class=\"icon\">\n              <use xlink:href=\"#icon-close\"></use>\n            </svg>\n          </div>\n        </div>\n      <li>")).insertBefore($lastLi);
     $li.on('click', function () {
       window.open(node.url);
     });
     $li.on('click', '.close', function (e) {
-      e.stopPropagation(); //阻止冒泡
+      e.stopPropagation(); // 阻止冒泡
 
       hashMap.splice(index, 1);
       render();
@@ -155,16 +152,15 @@ var render = function render() {
 
 render();
 $('.addButton').on('click', function () {
-  var url = window.prompt('请输入你要添加的网址：');
+  var url = window.prompt('请问你要添加的网址是啥？');
 
-  if (url.indexOf('https') !== 0) {
+  if (url.indexOf('http') !== 0) {
     url = 'https://' + url;
   }
 
   console.log(url);
   hashMap.push({
-    logo: url.replace('https://', '').replace('http://', '').replace('www.', '')[0].toUpperCase(),
-    logoType: "text",
+    logo: simplifyUrl(url)[0].toUpperCase(),
     url: url
   });
   render();
@@ -179,10 +175,10 @@ $(document).on('keypress', function (e) {
   var key = e.key;
 
   for (var i = 0; i < hashMap.length; i++) {
-    if (hashMap[i].logo.toLocaleLowerCase === key) {
+    if (hashMap[i].logo.toLowerCase() === key) {
       window.open(hashMap[i].url);
     }
   }
 });
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.cebfa640.js.map
+//# sourceMappingURL=main.0435a767.js.map
